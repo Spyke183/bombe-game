@@ -5,7 +5,7 @@ import App from '../../App'; // Assurez-vous que le chemin est correct
 
 const words = ["BLANC", "CLONAT", "CABLON", "BALTON", "TALONC", "COBALT", "BLONCA", "CLONAB", "BOTLAN", "TOLCAN"];
 const disabledPhysicalKeys = ["B", "L", "A", "N", "C"]; // Simulated broken keys, making COBALT tricky to type
-const disabledVirtualKeys = ["O", "T", "V", "E", "R", "S", "I", "M", "P", "G", "H", "J", "K", "Q", "U", "W", "X", "Y", "Z"]; // Simulated broken keys, making COBALT tricky to type
+const disabledVirtualKeys = ["O", "T", "V", "E", "R", "S", "I", "M", "P", "J", "K", "Q", "U", "W", "X", ]; // Simulated broken keys, making COBALT tricky to type
 const timeLimit = 30; // Time in seconds
 
 export default function TrapGame() {
@@ -68,7 +68,7 @@ export default function TrapGame() {
       <p className="text-red-500">{message}</p>
       <input className="border p-2 text-lg" value={input} readOnly />
       <div className="flex flex-wrap gap-2 mt-4">
-        {"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter) => (
+        {"AMQYJEGSHRIKOPCBNWZXVDFLTU".split("").map((letter) => (
           <Button
             key={letter}
             onClick={() => handleVirtualKeyPress(letter)}
