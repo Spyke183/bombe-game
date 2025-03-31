@@ -107,3 +107,28 @@ button:disabled {
   background-color: #ccc; /* Couleur pour les touches désactivées */
   cursor: not-allowed; /* Curseur interdit */
 }
+
+.cable-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+}
+
+.cable {
+  width: 100px;
+  padding: 5px;
+  text-align: center;
+  border: 2px solid black;
+  cursor: pointer;
+  background-color: grey;
+}
+
+.cable.selected {
+  background-color: red;
+}
+
+.cable.cut {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
