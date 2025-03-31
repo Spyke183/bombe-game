@@ -90,7 +90,7 @@ function restoreTime(nextModule){
 }
 
 function showModule(moduleId){
-    const modules = document.querySelectorAll('[id='module']');
+    const modules = document.querySelectorAll('[id="module"]');
     modules.forEach(module => {
         module.classList.add("hidden");
     });
