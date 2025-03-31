@@ -1,3 +1,5 @@
+
+
 //TIMER PROGRESS
 let realTime = 900; //temps réel: 15 minutes
 let fakeTime = 900; //faux temps affiché
@@ -5,7 +7,7 @@ let slowFactor = 1; //multiplie le ralentissement (vitese normal = 1)
 let sequence = [];
 let savedFakeTime = fakeTime; //stock le dernier temps affiché avant le ralentissement
 let timerInterval; //stock l'intervalle du timer
-const correctSequence = ["bleu", "rouge", "jaune"];
+const correctSequence = ["blue", "yellow", "red"];
 
 /*timer à rebours et timer réel masqué*/
 function startTimer(){
@@ -14,14 +16,22 @@ function startTimer(){
     timerInterval = setInterval(() => {
         if(realTime > 0){
             realTime--;
-            fakeTime -= slowFactor;
+
+            if (realTime % slowFactor === 0) { // Réduit fakeTime moins souvent
+                fakeTime--;
+                console.log(slowFactor)
+            }
+
             updateTimeDisplay();
         }else{
             clearInterval(timerInterval);
-            document.getElementById("result").innerText = "💥BOOM!💥 la bombe à explosé"
+            document.getElementById("result").innerText = "💥BOOM!💥 La bombe a explosé";
         }
     }, 1000);
 }
+
+
+
 
 //ralentir le timer si le joueur échoue
 function updateTimeDisplay(){
