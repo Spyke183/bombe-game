@@ -64,7 +64,7 @@ export default function TrapGame() {
   return (
     <div className="p-6 flex flex-col items-start gap-4">
       <h1 className="text-xl font-bold">💣 Désamorcer la Bombe 💣</h1>
-      <p>Temps restant : {timeLeft}s</p>
+      <p>Temps Max recommandé : 3min</p>
       <p className="text-red-500">{message}</p>
       <input className="border p-2 text-lg" value={input} readOnly />
       <div className="flex flex-wrap gap-2 mt-4">
