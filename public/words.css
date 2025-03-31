@@ -37,7 +37,7 @@ h1 {
 }
 
 input {
-  width: 80%; /* Prendre toute la largeur */
+  width: 80%; /* Prendre 80% la largeur */
   padding: 12px; /* Espacement interne */
   border: 2px solid #dc3545; /* Bordure rouge */
   border-radius: 5px; /* Coins arrondis */
