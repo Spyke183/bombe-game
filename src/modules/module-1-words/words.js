@@ -3,7 +3,6 @@ import { Button } from "../../components/ui/button";
 import { createRoot } from 'react-dom/client';
 import App from '../../App'; // Assurez-vous que le chemin est correct
 
-const words = ["BLANC", "CLONAT", "CABLON", "BALTON", "TALONC", "COBALT", "BLONCA", "CLONAB", "BOTLAN", "TOLCAN"];
 const disabledPhysicalKeys = ["B", "L", "A", "N", "C"]; 
 const disabledVirtualKeys = ["O", "T", "V", "E", "R", "S", "I", "M", "P", "J", "K", "Q", "U", "W", "X", ]; // Simulated broken keys, making COBALT tricky to type
 const timeLimit = 30; // Time in seconds
