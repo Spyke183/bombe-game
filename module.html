@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Désamorce la bombe</title>
+</head>
+<body onload="startTimer()">
+    <h1>Défi Désamorçage</h1>
+    
+    <p id="timer">Temps restant: 900s</p>
+
+    <div id="module1" class="hidden">
+        <!--Trouver le bon bouton-->
+        <button onclick="slowTimer(true, 'module2')">✅</button>
+        <button onclick="slowTimer(false, 'module2')">❌</button>
+        <button onclick="slowTime(false, 'module2')">❌</button>
+    </div>
+
+    <div id="module2" class="hidden">
+        <!--Séquence de boutons-->
+        <button onclick="press('blue')">🔵</button>
+        <button onclick="press('red')">🔴</button>
+        <button onclick="press('yellow')">🟡</button>
+    </div>
+
+    <div id="module3" class="hidden">
+        <!--Code secret-->
+        <input type="text" id="codeInput" placeholder="Entrez le code">
+        <button onclick="checkCode()">Valider</button>
+    </div>
+
+    <div id="module4" class="hidden">
+        <!--Module inutile et restauration du temps-->
+        <button onclick="restoreTime()">Désactiver</button>
+    </div>
+
+    <div id="module5" class="hidden">
+        <!--Module final: Appuie quand le timer est un multiple de 5-->
+        <button onclick="checkTimer()">Désamorcer</button>
+    </div>
+
+    <p id="result"></p>
+</body>
+</html>
