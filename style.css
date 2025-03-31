@@ -1,12 +1,42 @@
 body {
-    background-color: #111;
-    color: white;
-    font-family: sans-serif;
-    padding: 2rem;
-  }
-  
-  h1 {
-    text-align: center;
-    margin-bottom: 3rem;
-  }
-  
+  background-color: #111;
+  color: white;
+  font-family: sans-serif;
+  padding: 2rem;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+#cableContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+#cableContainer div {
+  padding: 5px 10px;
+  border: 2px solid black;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+}
+
+#cableContainer .selected {
+  background-color: #f39c12; /* Couleur de surbrillance pour la sélection */
+  color: black;
+}
+
+#cableContainer .cut {
+  background-color: #7f8c8d; /* Couleur de fond pour les câbles coupés */
+  text-decoration: line-through; /* Barré pour indiquer qu'ils sont coupés */
+  color: white;
+}
+
+#cableContainer .disabled {
+  background-color: #bdc3c7; /* Couleur pour les câbles désactivés */
+  color: #7f8c8d;
+  cursor: not-allowed;
+}

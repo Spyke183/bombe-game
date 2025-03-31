@@ -2,11 +2,120 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Manuel des modules</title>
+  <style>
+    body {
+      background-color: #111;
+      color: white;
+      font-family: sans-serif;
+      padding: 2rem;
+      line-height: 1.6;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 2rem;
+    }
+    h2 {
+      color: #f4f4f4;
+      margin-top: 2rem;
+    }
+    .module-description, .cables-list, .rules-section {
+      margin: 1.5rem 0;
+    }
+    .cables-list ul {
+      list-style: none;
+      padding: 0;
+    }
+    .cables-list li {
+      font-size: 1.2rem;
+      margin: 5px 0;
+    }
+    .rules-section ul {
+      list-style: none;
+      padding-left: 1rem;
+    }
+    .rules-section li {
+      font-size: 1.1rem;
+      margin: 10px 0;
+    }
+    .scenario {
+      margin-bottom: 2rem;
+    }
+    .scenario p {
+      margin: 0.5rem 0;
+    }
+    .highlight {
+      color: #00ff00;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
   <h1>Manuel de Désamorçage</h1>
-  <p>Instructions affichées ici en fonction du code ou du module sélectionné.</p>
+
+  <div class="module-description">
+    <h2>Module des Câbles à Couper :</h2>
+    <p>Vous voyez plusieurs câbles colorés. Vous devez couper exactement deux câbles spécifiques pour désamorcer le module. Les couleurs des câbles et leur nombre influencent la solution. Consultez la règle appropriée pour couper les bons câbles.</p>
+  </div>
+
+  <div class="cables-list">
+    <h2>Câbles disponibles (Les couleurs peuvent varier) :</h2>
+    <ul>
+      <li>Rouge</li>
+      <li>Bleu</li>
+      <li>Jaune</li>
+      <li>Blanc</li>
+      <li>Vert</li>
+    </ul>
+  </div>
+
+  <div class="rules-section">
+    <h2>Règles selon le nombre de câbles :</h2>
+    
+    <div class="scenario">
+      <h3>Scénario avec 3 câbles :</h3>
+      <ul>
+        <li><span class="highlight">Aucun câble rouge</span>: Coupez le deuxième câble.</li>
+        <li><span class="highlight">Dernier câble blanc</span>: Coupez le dernier câble.</li>
+        <li><span class="highlight">Plus d'un câble bleu</span>: Coupez le dernier câble bleu.</li>
+        <li><span class="highlight">Sinon</span>: Coupez le dernier câble.</li>
+      </ul>
+    </div>
+
+    <div class="scenario">
+      <h3>Scénario avec 4 câbles :</h3>
+      <ul>
+        <li><span class="highlight">Plus d'un câble rouge et numéro de série impair</span>: Coupez le dernier câble rouge.</li>
+        <li><span class="highlight">Dernier câble jaune et pas de câble rouge</span>: Coupez le premier câble.</li>
+        <li><span class="highlight">Exactement un câble bleu</span>: Coupez le premier câble.</li>
+        <li><span class="highlight">Plus d'un câble jaune</span>: Coupez le dernier câble.</li>
+        <li><span class="highlight">Sinon</span>: Coupez le deuxième câble.</li>
+      </ul>
+    </div>
+
+    <div class="scenario">
+      <h3>Scénario avec 5 câbles :</h3>
+      <ul>
+        <li><span class="highlight">Un câble rouge et un câble jaune</span>: Coupez le troisième câble.</li>
+        <li><span class="highlight">Dernier câble vert et plus d'un câble jaune</span>: Coupez le quatrième câble.</li>
+        <li><span class="highlight">Exactement un câble bleu</span>: Coupez le bleu et n'importe quel câble jaune.</li>
+        <li><span class="highlight">Sinon</span>: Coupez le dernier câble.</li>
+      </ul>
+    </div>
+
+    <div class="scenario">
+      <h3>Scénario avec 6 câbles :</h3>
+      <ul>
+        <li><span class="highlight">Plus d'un câble bleu et numéro de série pair</span>: Coupez le premier câble bleu.</li>
+        <li><span class="highlight">Dernier câble blanc et un câble rouge</span>: Coupez le deuxième câble blanc.</li>
+        <li><span class="highlight">Plus d'un câble rouge</span>: Coupez le premier câble rouge.</li>
+        <li><span class="highlight">Sinon</span>: Coupez le dernier câble.</li>
+      </ul>
+    </div>
+  </div>
+  
   <script>
     console.log("🕵️ Certaines règles peuvent être cachées ici !");
   </script>
