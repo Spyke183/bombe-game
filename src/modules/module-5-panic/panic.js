@@ -7,7 +7,7 @@ const fakeTimeInitial = 900; // faux temps affiché
 let slowFactor = 1;
 let sequence = [];
 const correctSequence = ["blue", "yellow", "red"];
-let fastInterval = 300; // Réduction rapide (en millisecondes, ex: 300ms = 0.3s)
+let fastInterval = 100; // Réduction rapide (en millisecondes, ex: 300ms = 0.3s)
 let accelTime = false; // Mode accéléré activé ou non
 
 export default function BombDefuser() {
@@ -20,6 +20,9 @@ export default function BombDefuser() {
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [buttonRestoreDisabled, setButtonRestoreDisabled] = useState(true); // Initialement désactivé
 
+  // Référence pour l'élément 'game5'
+  const game5Element = useRef(null);
+
   useEffect(() => {
     const timerElement = document.getElementById("timer");
     if (timerElement) {
@@ -28,9 +31,9 @@ export default function BombDefuser() {
 
     timerIntervalRef.current = setInterval(() => {
       if (realTime > 0) {
-        setRealTime(prev => prev - 1);
+        setRealTime((prev) => prev - 1);
         if (!accelTime && realTime % slowFactor === 0) {
-          setFakeTime(prev => prev - 1);
+          setFakeTime((prev) => prev - 1);
         }
       } else {
         clearInterval(timerIntervalRef.current);
@@ -38,25 +41,29 @@ export default function BombDefuser() {
       }
     }, 1000); // Mise à jour toutes les 1s
 
+    // Vérification de fakeTime pour enlever "hidden" de game5
+    if (fakeTime === 120 && game5Element.current) {
+      game5Element.current.removeAttribute("hidden");
+    }
+
     return () => clearInterval(timerIntervalRef.current);
-  }, [realTime, accelTime]);
+  }, [realTime, accelTime, fakeTime]);
 
   useEffect(() => {
     // Si l'accélération est activée, on met à jour fakeTime toutes les 300ms
     const fastTimerInterval = setInterval(() => {
       if (accelTime && fakeTime > 0) {
-        setFakeTime(prev => {
+        setFakeTime((prev) => {
           if (prev > 0) {
-            // Réduction contrôlée de 1 seconde à chaque itération
             return prev - 1;
           }
           return prev;
         });
       }
       if (fakeTime <= 0) {
-        setButtonRestoreDisabled(false);    
+        setButtonRestoreDisabled(false);
       }
-    }, fastInterval);  // Réduit toutes les 100ms si accelTime est true
+    }, fastInterval); // Réduit toutes les 100ms si accelTime est true
 
     return () => clearInterval(fastTimerInterval);
   }, [accelTime, fakeTime]);
@@ -112,7 +119,7 @@ export default function BombDefuser() {
         setResult("Séquence correcte!");
         sequence = [];
         setSequenceDisplay("");
-        showModule('module3');
+        showModule("module3");
       }
     }
   };
@@ -126,7 +133,7 @@ export default function BombDefuser() {
       document.getElementById("codeInput").value = "";
     } else {
       setResult("Code correct!");
-      showModule('module4');
+      showModule("module4");
       activatePanicMode();
     }
   };
@@ -163,15 +170,13 @@ export default function BombDefuser() {
     }
 
     setResult("Le système s'est auto-réparé! Prépare-toi pour le désamorçage final!");
-    showModule('module5');
+    showModule("module5");
     setButtonRestoreDisabled(true); // Désactiver après restauration
   };
 
   const resetGame = () => {
     setResult("");
     setSequenceDisplay("");
-    setRealTime(realTimeInitial);
-    setFakeTime(fakeTimeInitial);
     slowFactor = 1;
     setCurrentModule("module1");
     setButtonDisabled(false);
@@ -187,7 +192,7 @@ export default function BombDefuser() {
           <h2>Trouve le bon bouton</h2>
           <p className="instruction">Evite de te tromper 😈</p>
           <div className="button-container">
-            <button onClick={() => { setResult("Bon choix!"); showModule('module2'); }}>👻</button>
+            <button onClick={() => { setResult("Bon choix!"); showModule("module2"); }}>👻</button>
             <button onClick={() => { setResult("Mauvais choix!"); }}>🫥</button>
             <button onClick={() => { setResult("Mauvais choix!"); }}>😶‍🌫️</button>
           </div>
@@ -199,9 +204,9 @@ export default function BombDefuser() {
           <h2>Entre la bonne séquence</h2>
           <div id="sequence-display">{sequenceDisplay}</div>
           <div className="button-container">
-            <button onClick={() => handleSequencePress('blue')}>🔵</button>
-            <button onClick={() => handleSequencePress('red')}>🔴</button>
-            <button onClick={() => handleSequencePress('yellow')}>🟡</button>
+            <button onClick={() => handleSequencePress("blue")}>🔵</button>
+            <button onClick={() => handleSequencePress("red")}>🔴</button>
+            <button onClick={() => handleSequencePress("yellow")}>🟡</button>
           </div>
         </div>
       )}
@@ -237,6 +242,11 @@ export default function BombDefuser() {
       <p>{result}</p>
 
       <button onClick={resetGame}>Recommencer</button>
+
+      {/* Game5 avec hidden */}
+      <div id="game5" ref={game5Element} hidden>
+        {/* Contenu de votre game5 */}
+      </div>
     </div>
   );
 }
