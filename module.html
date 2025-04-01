@@ -8,40 +8,70 @@
     <title>Désamorce la bombe</title>
 </head>
 <body onload="startTimer()">
+<div class="container">  
     <h1>Défi Désamorçage</h1>
-    
-    <p id="timer">Temps restant: 900s</p>
 
-    <div id="module1" class="hidden">
-        <!--Trouver le bon bouton-->
-        <button onclick="slowTimer(true, 'module2')">✅</button>
-        <button onclick="slowTimer(false, 'module2')">❌</button>
-        <button onclick="slowTime(false, 'module2')">❌</button>
+    <div class="timer-container">
+        <p id="timer">Temps restant: 900s</p>
     </div>
 
+    <!--Trouver le bon bouton-->
+    <div id="module1" class="hidden">  
+        <h2>Trouve le bon bouton</h2>
+        <p class="instruction">Evite de te tromper 😈</p>
+        <div class="button-container">
+            <button onclick="slowTimer(true, 'module2')">👻</button>
+            <button onclick="slowTimer(false, 'module2')">🫥</button>
+            <button onclick="slowTime(false, 'module2')">😶‍🌫️</button>
+        </div>
+    </div>
+
+    <!--Séquence de boutons-->
     <div id="module2" class="hidden">
-        <!--Séquence de boutons-->
-        <button onclick="press('blue')">🔵</button>
-        <button onclick="press('red')">🔴</button>
-        <button onclick="press('yellow')">🟡</button>
+        <h2>Entre la bonne séquence</h2>
+        <p>Appuie sur les boutons dans le bon ordre</p>
+        <div id="sequence-display"></div>
+        <div class="button-container">
+            <button class="game-button blue" onclick="press('blue')">🔵</button>
+            <button class="game-button red" onclick="press('red')">🔴</button>
+            <button class="game-button yellow" onclick="press('yellow')">🟡</button>
+        </div>
     </div>
 
+    <!--Code secret-->
     <div id="module3" class="hidden">
-        <!--Code secret-->
-        <input type="text" id="codeInput" placeholder="Entrez le code">
+        <h2>Entre le code secret</h2>
+        <p class="instruction">Le code est composé de 4 chiffres</p>
+        <input type="text" id="codeInput" maxlength="4" placeholder="----" class="code-input">
         <button onclick="checkCode()">Valider</button>
     </div>
 
+    <!--Module inutile et restauration du temps-->
     <div id="module4" class="hidden">
-        <!--Module inutile et restauration du temps-->
-        <button onclick="restoreTime()">Désactiver</button>
+        <h2>Système critique!</h2>
+        <p id="instruction">⚠️ Alerte! tu as activé le protocole d'auto-destruction ⚠️</p>
+        <div id="panic-message" class="warning-text">Le compte à rebours s'accélère drastiquement!</div>
+        <div class="fake-puzzle">
+            <p class="puzzle-text"">Résous l'énigme pour sauver la bombe :</p>
+            <p class="puzzle-riddle">"Je grandis mais ne vieillis jamais, qu'est-ce que je suis ?"</p>
+            <input type="text" id="fake-answer" placeholder="Ta réponse..." class="code-input">
+            <button id="fake-submit" class=""game-button">Valider</button>
+        </div>
+        <button id="buttonRestore" onclick="restoreTime()">Désactiver</button>
     </div>
 
+    <!--Module final: Appuie quand le timer est un multiple de 5-->
     <div id="module5" class="hidden">
-        <!--Module final: Appuie quand le timer est un multiple de 5-->
-        <button onclick="checkTimer()">Désamorcer</button>
+        <h2>Désamorce la bombe!</h2>
+        <p class="instruction">Soit attentif au temps</p>
+        <div class="button-container">
+            <button onclick="checkTimer()">Désamorcer</button>
+        </div>
     </div>
 
     <p id="result"></p>
+
+    <button class="reset-button" onclick="resetGame()">Recommencer</button>
+</div>
 </body>
 </html>
