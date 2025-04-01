@@ -72,7 +72,7 @@ export default function TrapGame() {
 
   return (
     <div className="p-6 flex flex-col items-start gap-4">
-      <h1 className="text-xl font-bold">💣 Désamorcer la Bombe 💣</h1>
+      <h1 className="text-xl font-bold">🌌 LE MOT COSMIQUE 🌌</h1>
       <p>Temps Max recommandé : 3min</p>
       <p className="text-red-500">{message}</p>
       <input className="border p-2 text-lg" value={input} readOnly />
