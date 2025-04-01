@@ -321,3 +321,69 @@ button:disabled {
 .hidden{
   display: none;
 }
+
+/* Conteneur principal du jeu */
+.simon-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;  /* Utilise toute la hauteur de la fenêtre */
+  box-sizing: border-box;
+  overflow: hidden; /* Empêche le contenu de dépasser */
+}
+
+/* Conteneur des boutons Simon */
+.buttons-container {
+  display: flex;
+  flex-wrap: wrap; /* Les boutons vont se réarranger si nécessaire */
+  justify-content: center; /* Centre les boutons horizontalement */
+  align-items: center; /* Centre les boutons verticalement */
+  width: 80%; /* Limite la largeur des boutons à 80% de la largeur de la div */
+  max-width: 400px; /* Maximise la largeur des boutons à 400px */
+  gap: 20px; /* Espacement entre les boutons */
+  margin-top: 20px;
+}
+
+/* Style de chaque bouton */
+.simon-button {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  opacity: 0.7; /* Légèrement transparent par défaut */
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.simon-button.red {
+  background-color: red;
+}
+
+.simon-button.green {
+  background-color: green;
+}
+
+.simon-button.blue {
+  background-color: blue;
+}
+
+.simon-button.yellow {
+  background-color: yellow;
+}
+
+/* Style lorsque le bouton est actif (clignote) */
+.simon-button.active {
+  opacity: 1;
+  transform: scale(1.2); /* Agrandit légèrement le bouton lors de l'activation */
+}
+
+/* Style pour les boutons désactivés */
+.simon-button.disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
