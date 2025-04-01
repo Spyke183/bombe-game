@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "../../components/ui/button";
 import { createRoot } from 'react-dom/client';
-import App from '../../App'; // Assurez-vous que le chemin est correct
-import BlurOverlay from "../blur"; // Assurez-vous du bon chemin
+import App from '../../App';
 
-const disabledPhysicalKeys = ["B", "L", "A", "N", "C"];
-const disabledVirtualKeys = ["O", "T", "V", "E", "R", "S", "I", "M", "P", "J", "K", "Q", "U", "W", "X"];
+const allLetters = "AZERTYUIOPQSDFGHJKLMWXCVBN".split(''); // Toutes les lettres possibles
 const timeLimit = 30;
 
 export default function TrapGame() {
@@ -13,7 +11,21 @@ export default function TrapGame() {
   const [timeLeft, setTimeLeft] = useState(timeLimit);
   const [message, setMessage] = useState("Début du jeu !");
   const [showPopup, setShowPopup] = useState(false);
-  const [showOverlay, setShowOverlay] = useState(false);
+  const [physicalKeys, setPhysicalKeys] = useState([]);
+  const [virtualKeys, setVirtualKeys] = useState([]);
+
+  // Initialisation et mélange des touches
+  useEffect(() => {
+    shuffleKeys();
+  }, []);
+
+  const shuffleKeys = () => {
+    const shuffled = [...allLetters].sort(() => Math.random() - 0.5);
+    const splitIndex = Math.floor(shuffled.length / 2);
+    
+    setPhysicalKeys(shuffled.slice(0, splitIndex));
+    setVirtualKeys(shuffled.slice(splitIndex));
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -27,7 +39,11 @@ export default function TrapGame() {
       if (event.key != null) {
         const key = event.key.toUpperCase();
         if (/^[A-Z]$/.test(key)) {
-          handleKeyPress(key);
+          if (physicalKeys.includes(key)) {
+            handleKeyPress(key);
+          } else {
+            setMessage(`La touche ${key} n'est pas disponible sur le clavier physique !`);
+          }
         } else if (event.key === "Backspace") {
           handleBackspace();
         }
@@ -35,36 +51,21 @@ export default function TrapGame() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
-
-  const triggerError = (errorMsg, type) => {
-    setMessage(errorMsg);
-    if(type != 'key'){
-      setShowOverlay(true);
-    }
-    setTimeout(() => {
-      setShowOverlay(false);
-    }, 5000);
-  };
+  }, [physicalKeys]);
 
   const handleKeyPress = (key) => {
-    if (disabledPhysicalKeys.includes(key)) {
-      triggerError(`La touche ${key} est cassée sur le clavier physique !`, 'key');
-      return;
-    }
     setInput((prev) => prev + key);
+    shuffleKeys(); // Re-mélange après chaque action
   };
 
   const handleVirtualKeyPress = (key) => {
-    if (disabledVirtualKeys.includes(key)) {
-      triggerError(`La touche ${key} est cassée sur le clavier virtuel !`);
-      return;
-    }
     setInput((prev) => prev + key);
+    shuffleKeys(); // Re-mélange après chaque action
   };
 
   const handleBackspace = () => {
     setInput((prev) => prev.slice(0, -1));
+    shuffleKeys(); // Re-mélange après chaque action
   };
 
   const checkWord = () => {
@@ -73,7 +74,7 @@ export default function TrapGame() {
     } else if (input === "TOLCAN") {
       setMessage("Bravo, bon mot !");
     } else {
-      triggerError("Mauvais mot ! La bombe se rapproche de l'explosion !");
+      setMessage("Mauvais mot ! La bombe se rapproche de l'explosion !");
     }
   };
 
@@ -86,19 +87,21 @@ export default function TrapGame() {
       <h1 className="text-xl font-bold">🌌 LE MOT COSMIQUE 🌌</h1>
       <p>Temps Max recommandé : 3min</p>
       <p className="text-red-500">{message}</p>
+      <p>Touches physiques disponibles: {physicalKeys.join(', ')}</p>
       <input className="border p-2 text-lg" value={input} readOnly />
+      
       <div className="flex flex-wrap gap-2 mt-4">
-        {"AMQYJEGSHRIKOPCBNWZXVDFLTU".split("").map((letter) => (
+        {virtualKeys.map((letter) => (
           <Button
             key={letter}
             onClick={() => handleVirtualKeyPress(letter)}
-            disabled={disabledVirtualKeys.includes(letter)}
             className="w-12 h-12"
           >
             {letter}
           </Button>
         ))}
       </div>
+      
       <Button className="mt-4 bg-gray-500 text-white" onClick={handleBackspace}>⌫ Effacer</Button>
       <Button className="mt-4 bg-green-500 text-white" onClick={checkWord}>Vérifier</Button>
 
@@ -108,16 +111,15 @@ export default function TrapGame() {
           <Button onClick={closePopup} className="mt-2 bg-red-500 text-white">Fermer</Button>
         </div>
       )}
-
-      {showOverlay && <BlurOverlay />}
     </div>
   );
 }
 
+// Code de rendu
 const container = document.getElementById('game');
 if (container) {
     const root = createRoot(container);
     root.render(<TrapGame />);
 } else {
-    console.error();
+    console.error('L\'élément avec l\'ID "game" n\'existe pas.');
 }
