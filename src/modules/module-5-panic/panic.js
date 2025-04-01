@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 
 // Timer principal
 const realTimeInitial = 900; // temps réel: 15 minutes
-const fakeTimeInitial = 50; // faux temps affiché
+const fakeTimeInitial = 900; // faux temps affiché
 let slowFactor = 1;
 let sequence = [];
 const correctSequence = ["blue", "yellow", "red"];
@@ -21,6 +21,11 @@ export default function BombDefuser() {
   const [buttonRestoreDisabled, setButtonRestoreDisabled] = useState(true); // Initialement désactivé
 
   useEffect(() => {
+    const timerElement = document.getElementById("timer");
+    if (timerElement) {
+      timerElement.textContent = `Temps restant: ${fakeTime}s`;
+    }
+
     timerIntervalRef.current = setInterval(() => {
       if (realTime > 0) {
         setRealTime(prev => prev - 1);
@@ -40,12 +45,18 @@ export default function BombDefuser() {
     // Si l'accélération est activée, on met à jour fakeTime toutes les 300ms
     const fastTimerInterval = setInterval(() => {
       if (accelTime && fakeTime > 0) {
-        setFakeTime(prev => prev - 1);
+        setFakeTime(prev => {
+          if (prev > 0) {
+            // Réduction contrôlée de 1 seconde à chaque itération
+            return prev - 1;
+          }
+          return prev;
+        });
       }
-      if (fakeTime <= 0){
+      if (fakeTime <= 0) {
         setButtonRestoreDisabled(false);    
       }
-    }, fastInterval);
+    }, fastInterval);  // Réduit toutes les 100ms si accelTime est true
 
     return () => clearInterval(fastTimerInterval);
   }, [accelTime, fakeTime]);
@@ -170,10 +181,6 @@ export default function BombDefuser() {
   return (
     <div className="container">
       <h1>Défi Désamorçage</h1>
-
-      <div className="timer-container">
-        <p id="timer">Temps restant: {fakeTime}s</p>
-      </div>
 
       {currentModule === "module1" && (
         <div>
