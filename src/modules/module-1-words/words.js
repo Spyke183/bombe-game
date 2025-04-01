@@ -4,13 +4,14 @@ import { createRoot } from 'react-dom/client';
 import App from '../../App'; // Assurez-vous que le chemin est correct
 
 const disabledPhysicalKeys = ["B", "L", "A", "N", "C"]; 
-const disabledVirtualKeys = ["O", "T", "V", "E", "R", "S", "I", "M", "P", "J", "K", "Q", "U", "W", "X", ]; // Simulated broken keys, making COBALT tricky to type
+const disabledVirtualKeys = ["O", "T", "V", "E", "R", "S", "I", "M", "P", "J", "K", "Q", "U", "W", "X"]; // Simulated broken keys, making COBALT tricky to type
 const timeLimit = 30; // Time in seconds
 
 export default function TrapGame() {
   const [input, setInput] = useState("");
   const [timeLeft, setTimeLeft] = useState(timeLimit);
   const [message, setMessage] = useState("Début du jeu !");
+  const [showPopup, setShowPopup] = useState(false); // État pour gérer l'affichage de la pop-up
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -57,10 +58,16 @@ export default function TrapGame() {
 
   const checkWord = () => {
     if (input === "COBALT") {
+      setShowPopup(true); // Affiche la pop-up si le mot est COBALT
+    } else if (input === "TOLCAN") {
       setMessage("Bravo, bon mot ! Bombe désamorcée !");
     } else {
       setMessage("Mauvais mot ! La bombe se rapproche de l'explosion !");
     }
+  };
+
+  const closePopup = () => {
+    setShowPopup(false); // Ferme la pop-up
   };
 
   return (
@@ -83,6 +90,14 @@ export default function TrapGame() {
       </div>
       <Button className="mt-4 bg-gray-500 text-white" onClick={handleBackspace}>⌫ Effacer</Button>
       <Button className="mt-4 bg-green-500 text-white" onClick={checkWord}>Vérifier</Button>
+
+      {/* Pop-up pour le mot COBALT */}
+      {showPopup && (
+        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white border p-4 shadow-lg z-50">
+          <p>😄 T'es trop naïf, sale noob !!!</p>
+          <Button onClick={closePopup} className="mt-2 bg-red-500 text-white">Fermer</Button>
+        </div>
+      )}
     </div>
   );
 }
