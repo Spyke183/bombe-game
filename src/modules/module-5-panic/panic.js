@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
+import Victory from "../victory";
 
 // Timer principal
 const realTimeInitial = 900; // temps réel: 15 minutes
@@ -19,6 +20,7 @@ export default function BombDefuser() {
   const [currentModule, setCurrentModule] = useState("module1");
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [buttonRestoreDisabled, setButtonRestoreDisabled] = useState(true); // Initialement désactivé
+  const [showOverlay, setShowOverlay] = useState(false);
 
   // Référence pour l'élément 'game5'
   const game5Element = useRef(null);
@@ -97,9 +99,10 @@ export default function BombDefuser() {
     const currentTime = Math.floor(fakeTime);
     if (currentTime % 5 === 0) {
       setResult("🎉 Bombe désamorcée! 🎉");
+      setShowOverlay(true);
       hideAllModules();
       setButtonDisabled(true);
-      clearInterval(timerIntervalRef.current);
+      clearInterval(timerIntervalRef.current); // Arrêter le timer uniquement lorsque la bombe est désamorcée avec succès
     } else {
       setResult(`Erreur de timing! Le temps (${currentTime}s) n'est pas un multiple de 5!`);
       slowFactor *= 2;
@@ -245,8 +248,8 @@ export default function BombDefuser() {
       <p>{result}</p>
 
       <button onClick={resetGame}>Recommencer</button>
+      {showOverlay && <Victory />}
 
-      {/* Game5 avec hidden */}
       <div id="game5" ref={game5Element} hidden>
         {/* Contenu de votre game5 */}
       </div>
