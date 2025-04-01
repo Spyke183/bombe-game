@@ -170,10 +170,6 @@ function activatePanicMode() {
             document.getElementById("fake-submit").disabled = false;
             document.getElementById("fake-submit").classList.remove("disabled");
         }
-        if (fakeTime <= 0) {
-            document.getElementById("buttonRestore").classList.remove("disabled");
-            document.getElementById("buttonRestore").disabled = false;
-        }
     }, 1000);
 }
 
