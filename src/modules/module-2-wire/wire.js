@@ -53,7 +53,7 @@ export default function WireGame({ onSuccess, logError }) {
 
   return (
     <div className="module-container">
-      <h2 className="module-title">Module des Câbles</h2>
+      <h2 className="module-title">Les Fils Colorés</h2>
       <div className="cable-grid">
         {currentScenario.cables.map(({ id, color }) => (
           <div
