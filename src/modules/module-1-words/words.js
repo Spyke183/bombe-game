@@ -60,7 +60,7 @@ export default function TrapGame() {
     if (input === "COBALT") {
       setShowPopup(true); // Affiche la pop-up si le mot est COBALT
     } else if (input === "TOLCAN") {
-      setMessage("Bravo, bon mot ! Bombe désamorcée !");
+      setMessage("Bravo, bon mot !");
     } else {
       setMessage("Mauvais mot ! La bombe se rapproche de l'explosion !");
     }
