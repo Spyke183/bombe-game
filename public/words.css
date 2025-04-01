@@ -28,7 +28,7 @@ p {
   flex-wrap: wrap; /* Permettre le retour à la ligne si nécessaire */
 }
 
-#game, #game2, #game3 {
+#game, #game2, #game3, #game5 {
   background-color: #000000; /* Couleur de fond du module de jeu */
   border-radius: 10px; /* Coins arrondis */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Ombre douce */
@@ -136,3 +136,4 @@ button:disabled {
   text-decoration: line-through;
   opacity: 0.5;
 }
+

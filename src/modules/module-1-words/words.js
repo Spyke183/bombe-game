@@ -21,12 +21,15 @@ export default function TrapGame() {
 
   useEffect(() => {
     const handleKeyDown = (event) => {
-      const key = event.key.toUpperCase();
-      if (/^[A-Z]$/.test(key)) {
-        handleKeyPress(key);
-      } else if (event.key === "Backspace") {
-        handleBackspace();
+      if (event.key != null){
+        const key = event.key.toUpperCase();
+        if (/^[A-Z]$/.test(key)) {
+          handleKeyPress(key);
+        } else if (event.key === "Backspace") {
+          handleBackspace();
+        }
       }
+      
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
