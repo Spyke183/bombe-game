@@ -1,7 +1,7 @@
 /* style.css */
 
 body {
-  background-color: #e9ecef; /* Couleur de fond douce */
+  background-color: #232424; /* Couleur de fond douce */
   font-family: 'Arial', sans-serif; /* Police de base */
   margin: 0;
   padding: 20px;
@@ -12,10 +12,14 @@ body {
   margin: 0 auto; /* Centrer le conteneur */
 }
 
-h1 {
+h1, h2 {
   color: #dc3545; /* Couleur du titre */
   text-align: center;
   margin-bottom: 20px; /* Espacement en bas */
+}
+
+p {
+  color: #ffffff;
 }
 
 .game-container {
@@ -25,7 +29,7 @@ h1 {
 }
 
 #game, #game2, #game3 {
-  background-color: #ffffff; /* Couleur de fond du module de jeu */
+  background-color: #000000; /* Couleur de fond du module de jeu */
   border-radius: 10px; /* Coins arrondis */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Ombre douce */
   padding: 20px; /* Espacement interne */
@@ -53,8 +57,8 @@ button {
   transition: background-color 0.3s, transform 0.2s; /* Transition pour le survol */
   font-size: 1em; /* Taille de police */
   margin: 5px; /* Espacement entre les boutons */
-  background-color: #007bff; /* Couleur de fond par défaut */
-  color: white; /* Couleur du texte */
+  background-color: #0061c9; /* Couleur de fond par défaut */
+  color: rgb(0, 0, 0); /* Couleur du texte */
 }
 
 button:hover {
@@ -91,7 +95,7 @@ button:disabled {
   width: 40px; /* Largeur de chaque touche */
   height: 40px; /* Hauteur de chaque touche */
   background-color: #007bff; /* Couleur de fond des touches */
-  color: white; /* Couleur du texte */
+  color: rgb(255, 255, 255); /* Couleur du texte */
   border: none; /* Pas de bordure */
   border-radius: 5px; /* Coins arrondis */
   margin: 5px; /* Espacement entre les touches */
