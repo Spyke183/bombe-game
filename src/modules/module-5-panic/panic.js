@@ -139,6 +139,9 @@ export default function BombDefuser() {
   };
 
   const activatePanicMode = () => {
+    if (fakeTime > 450){
+      fastInterval = 50;
+    }
     toggleAcceleration(true);
     document.getElementById("timer").classList.add("shake-element");
 

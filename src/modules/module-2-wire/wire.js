@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
+import BlurOverlay from "../blur";
 
 export default function WireGame({ onSuccess, logError }) {
   const scenarios = [
@@ -20,6 +21,7 @@ export default function WireGame({ onSuccess, logError }) {
   const [currentScenario, setCurrentScenario] = useState(generateScenario());
   const [selectedCables, setSelectedCables] = useState([]);
   const [feedback, setFeedback] = useState("");
+  const [showOverlay, setShowOverlay] = useState(false);
 
   const toggleCable = (id) => {
     setSelectedCables((prev) =>
@@ -42,7 +44,11 @@ export default function WireGame({ onSuccess, logError }) {
     } else {
       setFeedback("💥 Mauvaise sélection ! Essayez encore.");
       logError();
-      resetScenario();
+      setShowOverlay(true);
+      setTimeout(() => {
+        setShowOverlay(false);
+        resetScenario();
+      }, 5000);
     }
   };
 
@@ -69,6 +75,9 @@ export default function WireGame({ onSuccess, logError }) {
         Valider la coupe
       </button>
       <p className="feedback">{feedback}</p>
+
+
+      {showOverlay && <BlurOverlay onClose={() => setShowOverlay(false)} />}
     </div>
   );
 }

@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
+import BlurOverlay from "../blur"; // Assurez-vous que le chemin est correct
 
-// Composant Simon
 export default function Simon() {
-  const colors = ["red", "green", "blue", "yellow"]; // Les couleurs possibles
-  const [sequence, setSequence] = useState([]); // Séquence générée
-  const [userSequence, setUserSequence] = useState([]); // Séquence entrée par l'utilisateur
-  const [isUserTurn, setIsUserTurn] = useState(false); // Si c'est le tour de l'utilisateur
-  const [message, setMessage] = useState(""); // Message d'état (gagné, perdu, etc.)
-  const [isPlaying, setIsPlaying] = useState(false); // Si le jeu est en cours ou non
-  const [speed, setSpeed] = useState(1000); // Vitesse de clignotement des boutons
-  const [isSequenceVisible, setIsSequenceVisible] = useState(true); // Si la séquence doit être visible
-  const [round, setRound] = useState(0); // Nombre de séquences jouées
-  
-  // Références pour chaque bouton
+  const colors = ["red", "green", "blue", "yellow"];
+  const [sequence, setSequence] = useState([]);
+  const [userSequence, setUserSequence] = useState([]);
+  const [isUserTurn, setIsUserTurn] = useState(false);
+  const [message, setMessage] = useState("");
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [speed, setSpeed] = useState(1000);
+  const [isSequenceVisible, setIsSequenceVisible] = useState(true);
+  const [round, setRound] = useState(0);
+  const [showOverlay, setShowOverlay] = useState(false); // 🔹 Ajout de l'état pour le flou
+
   const buttonRefs = useRef({
     red: null,
     green: null,
@@ -21,26 +21,27 @@ export default function Simon() {
     yellow: null,
   });
 
-  // Fonction pour générer une séquence aléatoire
   const generateSequence = () => {
-    if (round < 5) {
-      const randomColor = colors[Math.floor(Math.random() * colors.length)];
-      setSequence((prevSequence) => [...prevSequence, randomColor]);
-      setRound((prevRound) => prevRound + 1); // Incrémenter le nombre de séquences
-    }
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    setSequence((prevSequence) => [...prevSequence, randomColor]);
+    setRound((prevRound) => prevRound + 1);
   };
 
-  // Fonction pour démarrer ou redémarrer le jeu
   const startGame = () => {
     setIsPlaying(true);
     setMessage("");
     setUserSequence([]);
     setSequence([]);
-    setRound(0); // Réinitialiser le compteur de séquences
-    generateSequence(); // Démarrer la première séquence
+    setRound(0);
+    setIsSequenceVisible(true);
   };
 
-  // Fonction pour clignoter les couleurs de la séquence
+  useEffect(() => {
+    if (isPlaying && sequence.length === 0) {
+      generateSequence();
+    }
+  }, [sequence, isPlaying]);
+
   useEffect(() => {
     if (!isPlaying || !isSequenceVisible) return;
 
@@ -50,7 +51,6 @@ export default function Simon() {
         const color = sequence[i];
         const buttonRef = buttonRefs.current[color];
 
-        // Vérification si le bouton existe avant de manipuler son état
         if (buttonRef) {
           buttonRef.classList.add("active");
           setTimeout(() => {
@@ -60,40 +60,45 @@ export default function Simon() {
         i++;
       } else {
         clearInterval(interval);
-        setIsUserTurn(true); // Passer à la phase où l'utilisateur doit entrer sa séquence
-        setIsSequenceVisible(false); // Cacher la séquence affichée
+        setIsUserTurn(true);
+        setIsSequenceVisible(false);
       }
     }, speed);
+
+    return () => clearInterval(interval);
   }, [sequence, isPlaying, isSequenceVisible]);
 
-  // Fonction appelée lors du clic sur un bouton
   const handleColorClick = (color) => {
     if (!isUserTurn) return;
 
-    setUserSequence((prevSequence) => [...prevSequence, color]);
+    const newUserSequence = [...userSequence, color];
+    setUserSequence(newUserSequence);
 
-    // Vérification si l'utilisateur a entré la séquence correctement
-    if (userSequence.length + 1 === sequence.length) {
-      if (userSequence.join("") + color === sequence.join("")) {
+    if (newUserSequence.join("") === sequence.slice(0, newUserSequence.length).join("")) {
+      if (newUserSequence.length === sequence.length) {
         setMessage("Séquence correcte !");
         setTimeout(() => {
-          if (round < 5) {
+          if (round < 8) {
             setUserSequence([]);
             setIsUserTurn(false);
             setIsSequenceVisible(true);
-            generateSequence(); // Générer la séquence suivante
-            setMessage("Nouvelle séquence en cours...")
+            generateSequence();
+            setMessage("Nouvelle séquence...");
           } else {
             setMessage("Bravo ! Vous avez complété toutes les séquences.");
-            setIsPlaying(false); // Fin du jeu après 5 séquences réussies
+            setIsPlaying(false);
           }
         }, 1000);
-      } else {
-        setMessage("Mauvaise séquence !");
-        setTimeout(() => {
-          setIsPlaying(false); // Fin du jeu en cas d'erreur
-        }, 1000);
       }
+    } else {
+      setMessage("Mauvaise séquence !");
+      setShowOverlay(true); // 🔹 Active l'effet flou
+
+      setTimeout(() => {
+        setShowOverlay(false); // 🔹 Désactive l'effet flou après 5 secondes
+        setIsPlaying(false);
+        startGame();
+      }, 5000);
     }
   };
 
@@ -106,7 +111,7 @@ export default function Simon() {
         {colors.map((color) => (
           <button
             key={color}
-            ref={(el) => (buttonRefs.current[color] = el)} // Associe chaque bouton à sa référence
+            ref={(el) => (buttonRefs.current[color] = el)}
             id={color}
             className={`simon-button ${color} ${isUserTurn ? "" : "disabled"}`}
             onClick={() => handleColorClick(color)}
@@ -120,6 +125,9 @@ export default function Simon() {
       <button onClick={startGame} disabled={isPlaying}>
         Démarrer le jeu
       </button>
+
+      {/* 🔹 Affichage de l'overlay en cas d'erreur */}
+      {showOverlay && <BlurOverlay />}
     </div>
   );
 }
@@ -129,5 +137,5 @@ if (container) {
   const root = createRoot(container);
   root.render(<Simon />);
 } else {
-  console.error("L'élément avec l'ID 'root' n'existe pas.");
+  console.error("L'élément avec l'ID 'game3' n'existe pas.");
 }
