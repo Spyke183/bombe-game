@@ -56,7 +56,7 @@ export default function TrapGame() {
   };
 
   const checkWord = () => {
-    if (input === "COBALT") {
+    if (input === "TOLCAN") {
       setMessage("Bravo, bon mot ! Bombe désamorcée !");
     } else {
       setMessage("Mauvais mot ! La bombe se rapproche de l'explosion !");
