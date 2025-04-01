@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pare-Feu Mystérieux</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Pare-Feu Mystérieux 🔥</h1>
+    <p>Autorisez ou bloquez les connexions en fonction des règles !</p>
+
+    <div class="mode-selection">
+        <button onclick="setMode('normal')">Mode Normal 🟢</button>
+        <button onclick="setMode('difficile')">Mode Difficile 🔴</button>
+        <button onclick="setMode('extreme')">Mode Extrême 🔥</button>
+    </div>
+    
+    
+
+    <div class="info">
+        <p>⏳ Temps restant : <span id="timer">30</span> sec</p>
+        <p>⭐ Score : <span id="score">0</span></p>
+    </div>
+
+    <div id="firewall-rules"></div>
+
+    <button id="validate">Valider</button>
+    <p id="result"></p>
+
+    <script src="script.js"></script>
+</body>
+</html>
