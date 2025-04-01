@@ -82,6 +82,7 @@ export default function Simon() {
             setIsUserTurn(false);
             setIsSequenceVisible(true);
             generateSequence(); // Générer la séquence suivante
+            setMessage("Nouvelle séquence en cours...")
           } else {
             setMessage("Bravo ! Vous avez complété toutes les séquences.");
             setIsPlaying(false); // Fin du jeu après 5 séquences réussies
